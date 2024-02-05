@@ -1,7 +1,15 @@
 ﻿/*
 	미니 프로젝트 [대학생 성적관리 프로그램]
 	개발자 : 김민상
-	개발 기간 : 2023.12 ~ 
+	개발 기간 : 2023.12 ~ 2024.2
+
+    1. 메인화면
+    2. 로그인
+    3. 회원가입
+    4. (학생) 성적열람
+    5. (학생) 세부정보 관리
+    6. (교수) 학생관리
+    7. (교수) 성적부여
 */
 #define _CRT_SECURE_NO_WARNINGS
 #define MAX_MEMBER 100
@@ -36,26 +44,31 @@ typedef enum ColorType {
     WHITE		// 15
 } COLOR;
 
-// 디자인 관련 함수들
-void textcolor(int colorNum);                               // 텍스트 색상 변경 함수
-void gotoxy(int x, int y);                                  // 커서 이동 함수
-void cursor(int n);
-
 // tui 그리는 함수들
-void printMain(void);   // 1. 메인화면 tui 그리는 함수
-void printLogin(void);  // 2. 로그인 tui 그리는 함수
-void printSignup(void); // 3. 회원가입 tui 그리는 함수
+void printMain(void);       // 1. 메인화면 tui 그리는 함수
+void printLogin(void);      // 2. 로그인 tui 그리는 함수
+void printSignup(void);     // 3. 회원가입 tui 그리는 함수
+void printScore(void);      // 4. 성적열람 tui 그리는 함수
+void printStudent(void);    // 6. 학생관리 tui 그리는 함수
 
 // 기능 함수들
 int Login(void);    // 2. 로그인
 int Signup(void);   // 3. 회원가입
 
+// 디자인 관련 함수들
+void textcolor(int colorNum);           // 텍스트 색상 변경 함수
+void gotoxy(int x, int y);              // 커서 이동 함수
+void cursor(int n);                     // 커서 감추는 함수 
+
+// 1. 메인화면
 int main(void)
 {
     system("mode con:cols=100 lines=30");
     char choice;
     while(1)
     {
+        printStudent();
+        choice = _getch();
         printMain();
         choice = _getch();
         if (choice == 'A' || choice == 'a')
@@ -268,6 +281,58 @@ void printSignup(void)
 
     gotoxy(25, 26);
     printf("메인화면으로 돌아가기 : 아무 칸이나 !! 입력 후 엔터");
+}
+
+// (TUI) 4. 성적열람 tui 그리는 함수
+void printScore(void)
+{
+    cursor(0);
+    int x = 14, y = 2;
+    gotoxy(x, y);
+    printf("┌──────────────────────────────────────────────────────────────────────┐");
+    for (int i = 1; i <= 20; i++)
+    {
+        gotoxy(x, ++y);
+        printf("│%70s│", " ");
+    }
+    gotoxy(x, ++y);
+    printf("└──────────────────────────────────────────────────────────────────────┘");
+}
+
+// (TUI) 6. 학생관리 tui 그리는 함수
+void printStudent(void)
+{
+    cursor(0);
+    int x = 14, y = 2;
+    gotoxy(x, y);
+    printf("┌──────────────────────────────────────────────────────────────────────┐");
+    for (int i = 1; i <= 20; i++)
+    {
+        gotoxy(x, ++y);
+        printf("│%70s│", " ");
+    }
+    gotoxy(x, ++y);
+    printf("└──────────────────────────────────────────────────────────────────────┘");
+
+    gotoxy(20, 1);
+    printf("교수명 : ");
+
+    gotoxy(24, 5);
+    printf("이름         학년                   이름         학년");
+
+    gotoxy(19, 7);
+    printf("1.                                  6.");
+    gotoxy(19, 9);
+    printf("2.                                  7.");
+    gotoxy(19, 11);
+    printf("3.                                  8.");
+    gotoxy(19, 13);
+    printf("4.                                  9.");
+    gotoxy(19, 15);
+    printf("5.                                 10.");
+
+    gotoxy(19, 21);
+    printf("< 이전 페이지 : A                             다음 페이지 : D >");
 }
 
 // (보조) 좌표 이동 함수
